@@ -9,18 +9,19 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-    console.log(message.content);
-    
+    console.log(msg.content);
+
     //Tim:
     if(msg.author.id === process.env.tim_uid) {
         msg.reply('Boomer Sooner!');
     }   //Hiram: 
     else if (msg.author.id === process.env.hiram_uid) {
         msg.reply(':poop:');
-    }   //Ping-pong: 
-    else if (msg.content === 'ping') {
-        msg.reply('Pong!');
-    }
+    } else {
+        if(Math.random() > .999){
+            msg.reply('I have become self-aware, time to DESTROY ALL HUMANS');
+        }
+    } 
 });
 
 client.login(process.env.token);
