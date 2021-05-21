@@ -3,7 +3,7 @@
 ![](https://img.shields.io/github/contributors/timburr1/troll9000)
 ![](https://img.shields.io/github/last-commit/timburr1/troll9000)
 
-Discord bot that replies to all of Hiram's posts with a poop emoji
+Just a simple Discord bot that replies to all of Hiram's posts with a poop emoji
 
 ## Prereq:
 * [**Node.js**](https://nodejs.org/)
