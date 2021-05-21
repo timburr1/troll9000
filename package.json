@@ -1,0 +1,31 @@
+{
+  "name": "troll9000",
+  "version": "1.0.0",
+  "description": "a silly discord bot to follow hiram around and make fun of him",
+  "main": "app.js",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^9.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.26.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timburr1/troll9000.git"
+  },
+  "keywords": [
+    "node.js",
+    "discord"
+  ],
+  "author": "Tim Burr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timburr1/troll9000/issues"
+  },
+  "homepage": "https://github.com/timburr1/troll9000#readme"
+}
