@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
+// read read UIDs from .env file
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -9,13 +10,13 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-    //console.log(msg.content);
+    console.log(msg.content);
 
-    //Replying to Tim or Dave:
+    // replying to Tim or Dave:
     if(msg.author.id === process.env.tim_uid || msg.author.id === process.env.dave_uid) {
         msg.react('👑');       
         msg.reply('you are a gentleman and a scholar.');        
-    }    //Hiram:     
+    } // Hiram:     
     else if (msg.author.id === process.env.hiram_uid) {
         msg.react('💩');
     } else if(Math.random() > .999){
