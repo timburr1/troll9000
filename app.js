@@ -12,14 +12,15 @@ client.on('ready', () => {
 client.on('message', msg => {
     console.log(msg.content);
 
-    // replying to Tim or Dave:
-    if(msg.author.id === process.env.tim_uid || msg.author.id === process.env.dave_uid) {
-        msg.react('👑');       
-        msg.reply('you are a gentleman and a scholar.');        
-    } // Hiram:     
-    else if (msg.author.id === process.env.hiram_uid) {
+    // replying to Hiram:     
+    if (msg.author.id === process.env.hiram_uid) {
         msg.react('💩');
-    } else if(Math.random() > .999){
+    } else if(msg.author.id === process.env.tim_uid || msg.author.id === process.env.dave_uidc || msg.author.id === process.env.loren_uid) {
+        msg.react('👑');       
+        //msg.reply('you are a gentleman and a scholar.');        
+    }      
+    
+    if(Math.random() > .999){
         msg.reply('I have become self-aware, time to DESTROY ALL HUMANS');
     } 
 });

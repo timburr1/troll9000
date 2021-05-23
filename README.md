@@ -14,8 +14,8 @@ In the project root folder, create a .env file with your bot's token and any use
 > 
 > TOKEN=SOME LONG ALPHANUMERIC STRING
 > 
-> DAVE_UID=1234567891011
-> HIRAM_UID=246810121416
+> DAVE_UID=1234567891011  
+> HIRAM_UID=246810121416  
 > TIM_UID=11235813213455
 
 Open the project in VSCode. Click on the Terminal menu -> New Terminal, and enter the following commands:
@@ -24,4 +24,4 @@ $ npm install
 $ npm run start
 ```
 
-## More info about writing your own: [https://discordjs.guide/](https://discordjs.guide/)
+## More info about writing your own Discord bot, and adding it to servers: [https://discordjs.guide/](https://discordjs.guide/)
