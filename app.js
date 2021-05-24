@@ -15,7 +15,8 @@ client.on('message', msg => {
     // replying to Hiram:     
     if (msg.author.id === process.env.hiram_uid) {
         msg.react('💩');
-    } else if(msg.author.id === process.env.tim_uid || msg.author.id === process.env.dave_uidc || msg.author.id === process.env.loren_uid) {
+    } //replying to Tim, Dave, or Loren: 
+    else if(msg.author.id === process.env.tim_uid || msg.author.id === process.env.dave_uid || msg.author.id === process.env.loren_uid) {
         msg.react('👑');       
         //msg.reply('you are a gentleman and a scholar.');        
     }      
