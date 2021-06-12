@@ -12,16 +12,25 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-    //console.log(msg.content);
-
-    // replying to Hiram:     
+    
     if (msg.author.id === process.env.hiram_uid) {
         msg.react('💩');
-    } //replying to Tim, Dave, or Loren: 
+    } 
     else if(msg.author.id === process.env.tim_uid || msg.author.id === process.env.dave_uid || msg.author.id === process.env.loren_uid) {
         msg.react('👑');       
         //msg.reply('you are a gentleman and a scholar.');        
-    }      
+    } else if(msg.author.id === process.env.baker1_uid || msg.author.id === process.env.baker2_uid) {
+        msg.react('🐆');         
+    }  else if(msg.author.id === process.env.collins_uid) { 
+        msg.react('🍆');         
+        msg.react('🍑');         
+    } else if(msg.author.id === process.env.ray_uid) {
+        msg.react('☀️');         
+    } 
+    
+    if (msg.content.startsWith(PREFIX + "kingdom")) {
+      generateKingdom(msg.content);
+    }
     
     if(Math.random() > .99){
         msg.reply('I have become self-aware, time to DESTROY ALL HUMANS');
@@ -53,18 +62,15 @@ function generateKingdom(message) {
 function foundWith(players, roles) {
   var roleMap = new Map();
 
-    console.log(players);
-
-    players.forEach(p => {
-      var n = rand(roles.length);
+   players.forEach(playerId => {
+    var n = rand(roles.length);
       
-      var thisPlayerId = p.replace("<", "").replace(">", "").replace("@", "");
-      console.log(thisPlayerId);
-      roleMap.set(thisPlayerId, roles[n]);
-      roles.splice(n, 1);
-    });
+    var trimmedPlayerId = playerId.replace("<@!", "").replace(">", "");
+    roleMap.set(trimmedPlayerId, roles[n]);
+    roles.splice(n, 1);
+  });
         
-    messagePlayers(roleMap);
+  messagePlayers(roleMap);
 }
 
 function rand(max) {
@@ -72,11 +78,9 @@ function rand(max) {
 }
 
 function messagePlayers(roleMap) {
-
-  roleMap.forEach((playerId, role) => {
-    client.fetch(playerId).then((user) =>{
-      user.send(role);
-    })
+  roleMap.forEach((role, playerId) => {
+    console.log("Trying to message " + playerId + ": " + role);
+    client.users.cache.get(playerId).send(role);
   })
 }
 
