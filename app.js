@@ -37,14 +37,13 @@ client.on('message', msg => {
     } 
 });
 
-const sixRoles = ["king", "knight", "knight",
-            "bandito", "bandito", "usurper"];
+const fiveRoles = ["king", "knight", "bandito", "bandito", "assassin"];
 
-const sevenRoles = ["king", "knight", "knight",
-      "bandito", "bandito", "usurper", "assassin"];
+const sixRoles = ["king", "knight", "knight", "bandito", "bandito", "usurper"];
 
-const eightRoles = ["king", "knight", "knight",   
-      "bandito", "bandito", "bandito", "bandito", "assassin"];
+const sevenRoles = ["king", "knight", "knight", "bandito", "bandito", "usurper", "assassin"];
+
+const eightRoles = ["king", "knight", "knight", "bandito", "bandito", "bandito", "bandito", "assassin"];
 
 function generateKingdom(message) {   
     //console.log(message);
@@ -52,6 +51,7 @@ function generateKingdom(message) {
     players.splice(0, 1);
     
     switch(players.length) {
+      case 5: foundWith(players, fiveRoles); break;
       case 6: foundWith(players, sixRoles); break;
       case 7: foundWith(players, sevenRoles); break;
       case 8: foundWith(players, eightRoles); break;
