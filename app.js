@@ -19,13 +19,6 @@ client.on('message', msg => {
     else if(msg.author.id === process.env.tim_uid || msg.author.id === process.env.dave_uid || msg.author.id === process.env.loren_uid) {
         msg.react('👑');       
         //msg.reply('you are a gentleman and a scholar.');        
-    } else if(msg.author.id === process.env.baker1_uid || msg.author.id === process.env.baker2_uid) {
-        msg.react('🐆');         
-    }  else if(msg.author.id === process.env.collins_uid) { 
-        msg.react('🍆');         
-        msg.react('🍑');         
-    } else if(msg.author.id === process.env.ray_uid) {
-        msg.react('☀️');         
     } 
     
     if (msg.content.startsWith(PREFIX + "kingdom")) {
