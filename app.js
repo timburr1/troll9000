@@ -13,18 +13,20 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     
-    if (msg.author.id === process.env.hiram_uid) {
+    if (msg.author.id === process.env.mooney_uid) {
         msg.react('💩');
     } 
-    else if(msg.author.id === process.env.tim_uid || msg.author.id === process.env.dave_uid || msg.author.id === process.env.loren_uid) {
+    else if(msg.author.id === process.env.tim_uid) {
         msg.react('👑');       
         //msg.reply('you are a gentleman and a scholar.');        
     } 
     
     if (msg.content.startsWith(PREFIX + "kingdom")) {
       generateKingdom(msg.content);
+    } else if(msg.content.startsWith(PREFIX + "santa")) {
+      secretSanta();
     }
-    
+
     if(Math.random() > .99){
         msg.reply('I have become self-aware, time to DESTROY ALL HUMANS');
     } 
@@ -64,6 +66,28 @@ function foundWith(players, roles) {
   });
         
   messagePlayers(roleMap);
+}
+
+function secretSanta() {
+  // These are some ho-ho-hos:
+  const dudes = ["Ben", "Dave", "Joe", "Kyle", "Mooney", "Ray", "Tim"];
+  var santaMap = new Map();
+  var taken = new Set();
+
+  dudes.forEach(giver => {
+    var n = rand(dudes.length);
+    
+    while(dudes[n] == giver || taken.has(dudes[n])) {
+      n = rand(dudes.length);
+    }
+
+    var giftee = dudes[n];
+    santaMap.set(giver, giftee);
+    taken.add(giftee);
+  })
+    
+  console.log(santaMap);
+  //messagePlayers(santaMap);
 }
 
 function rand(max) {
