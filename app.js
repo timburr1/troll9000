@@ -13,64 +13,29 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     
-    if (msg.author.id === process.env.mooney_uid) {
-        msg.react('💩');
-    } 
-    else if(msg.author.id === process.env.tim_uid) {
+    if (msg.author.id === process.env.tim_uid) {
         msg.react('👑');       
         //msg.reply('you are a gentleman and a scholar.');        
-    } 
+    } /*else {
+        msg.react('💩');
+    } */
     
-    if (msg.content.startsWith(PREFIX + "kingdom")) {
-      generateKingdom(msg.content);
-    } else if(msg.content.startsWith(PREFIX + "santa")) {
+    if(msg.content.startsWith(PREFIX + "santa")) {
       secretSanta();
-    }
+    } else if (msg.content.startsWith(PREFIX + "test")) {
+      client.users.fetch(process.env.tim_uid, false).then((user) => {
+        user.send("test");
+      });        
+    } 
 
     if(Math.random() > .99){
         msg.reply('I have become self-aware, time to DESTROY ALL HUMANS');
     } 
 });
 
-const fiveRoles = ["king", "knight", "bandito", "bandito", "assassin"];
-
-const sixRoles = ["king", "knight", "knight", "bandito", "bandito", "usurper"];
-
-const sevenRoles = ["king", "knight", "knight", "bandito", "bandito", "usurper", "assassin"];
-
-const eightRoles = ["king", "knight", "knight", "bandito", "bandito", "bandito", "bandito", "assassin"];
-
-function generateKingdom(message) {   
-    //console.log(message);
-    var players = message.split(" ");
-    players.splice(0, 1);
-    
-    switch(players.length) {
-      case 5: foundWith(players, fiveRoles); break;
-      case 6: foundWith(players, sixRoles); break;
-      case 7: foundWith(players, sevenRoles); break;
-      case 8: foundWith(players, eightRoles); break;
-      default: console.log("Sorry, I don't know how to generate a kingdom for " + players.length + " players");
-    }
-}
-
-function foundWith(players, roles) {
-  var roleMap = new Map();
-
-   players.forEach(playerId => {
-    var n = rand(roles.length);
-      
-    var trimmedPlayerId = playerId.replace("<@!", "").replace(">", "");
-    roleMap.set(trimmedPlayerId, roles[n]);
-    roles.splice(n, 1);
-  });
-        
-  messagePlayers(roleMap);
-}
-
 function secretSanta() {
   // These are some ho-ho-hos:
-  const dudes = ["Ben", "Dave", "Joe", "Kyle", "Mooney", "Ray", "Tim"];
+  const dudes = ["Ben", "Collins", "Dave", "Joe", "Kyle", "Mooney", "Ray", "Tim", "Hiram", "Kaiser"];
   var santaMap = new Map();
   var taken = new Set();
 
@@ -86,19 +51,36 @@ function secretSanta() {
     taken.add(giftee);
   })
     
-  console.log(santaMap);
-  //messagePlayers(santaMap);
+  //console.log(santaMap);
+  messagePlayers(santaMap);
 }
 
 function rand(max) {
   return Math.floor(Math.random() * max);
 }
 
-function messagePlayers(roleMap) {
-  roleMap.forEach((role, playerId) => {
-    console.log("Trying to message " + playerId + ": " + role);
-    client.users.cache.get(playerId).send(role);
-  })
+function messagePlayers(santaMap) {
+  
+  const idMap = new Map([
+    ["Ben", process.env.ben_uid],
+    ["Collins", process.env.collins_uid],
+    ["Dave", process.env.dave_uid], 
+    ["Joe", process.env.joe_uid], 
+    ["Kyle", process.env.kyle_uid], 
+    ["Mooney", process.env.mooney_uid], 
+    ["Ray", process.env.ray_uid], 
+    ["Tim", process.env.tim_uid],
+    ["Hiram", process.env.hiram_uid], 
+    ["Kaiser", process.env.kaiser_uid]
+  ]);
+
+  santaMap.forEach((giver, giftee) => {
+    //console.log("Trying to message " + giver + ": " + giftee);
+    //console.log("Giver UID: " + idMap.get(giver));    
+    client.users.fetch(idMap.get(giver), false).then((user) => {
+      user.send("Your secret santa giftee is: " + giftee);
+    });
+  }) 
 }
 
 client.login(process.env.token);
