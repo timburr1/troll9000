@@ -20,13 +20,14 @@ client.on('message', msg => {
         msg.react('💩');
     } */
     
+    /*
     if(msg.content.startsWith(PREFIX + "santa")) {
       secretSanta();
     } else if (msg.content.startsWith(PREFIX + "test")) {
       client.users.fetch(process.env.tim_uid, false).then((user) => {
         user.send("test");
       });        
-    } 
+    } */
 
     if(Math.random() > .99){
         msg.reply('I have become self-aware, time to DESTROY ALL HUMANS');
@@ -59,6 +60,13 @@ function rand(max) {
   return Math.floor(Math.random() * max);
 }
 
+function rot13(input) {
+  const originalAlpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  const cipher = "nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM"
+
+  return input.replace(/[a-z]/gi, letter => cipher[originalAlpha.indexOf(letter)]);
+}
+
 function messagePlayers(santaMap) {
   
   const idMap = new Map([
@@ -78,7 +86,8 @@ function messagePlayers(santaMap) {
     //console.log("Trying to message " + giver + ": " + giftee);
     //console.log("Giver UID: " + idMap.get(giver));    
     client.users.fetch(idMap.get(giver), false).then((user) => {
-      user.send("Your secret santa giftee is: " + giftee);
+      user.send("Hello, " + giver + " your secret santa giftee is: " + giftee);
+      console.log(rot13(giver + " to " + giftee));    
     });
   }) 
 }
