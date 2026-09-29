@@ -13,7 +13,7 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     
-    if (msg.author.id === process.env.tim_uid) {
+    if (msg.author.id === process.env.TIM_UID) {
         msg.react('👑');       
         //msg.reply('you are a gentleman and a scholar.');        
     } /*else {
@@ -24,7 +24,7 @@ client.on('message', msg => {
     if(msg.content.startsWith(PREFIX + "santa")) {
       secretSanta();
     } else if (msg.content.startsWith(PREFIX + "test")) {
-      client.users.fetch(process.env.tim_uid, false).then((user) => {
+      client.users.fetch(process.env.TIM_UID, false).then((user) => {
         user.send("test");
       });        
     } */
@@ -38,18 +38,16 @@ function secretSanta() {
   // These are some ho-ho-hos:
   const dudes = ["Ben", "Collins", "Dave", "Joe", "Kyle", "Mooney", "Ray", "Tim", "Hiram", "Kaiser"];
   var santaMap = new Map();
-  var taken = new Set();
 
-  dudes.forEach(giver => {
-    var n = rand(dudes.length);
-    
-    while(dudes[n] == giver || taken.has(dudes[n])) {
-      n = rand(dudes.length);
-    }
+  // shuffle, then everyone gives to the next person in the circle
+  var shuffled = dudes.slice();
+  for (var i = shuffled.length - 1; i > 0; i--) {
+    var j = rand(i + 1);
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
 
-    var giftee = dudes[n];
-    santaMap.set(giver, giftee);
-    taken.add(giftee);
+  shuffled.forEach((giver, i) => {
+    santaMap.set(giver, shuffled[(i + 1) % shuffled.length]);
   })
     
   //console.log(santaMap);
@@ -70,19 +68,19 @@ function rot13(input) {
 function messagePlayers(santaMap) {
   
   const idMap = new Map([
-    ["Ben", process.env.ben_uid],
-    ["Collins", process.env.collins_uid],
-    ["Dave", process.env.dave_uid], 
-    ["Joe", process.env.joe_uid], 
-    ["Kyle", process.env.kyle_uid], 
-    ["Mooney", process.env.mooney_uid], 
-    ["Ray", process.env.ray_uid], 
-    ["Tim", process.env.tim_uid],
-    ["Hiram", process.env.hiram_uid], 
-    ["Kaiser", process.env.kaiser_uid]
+    ["Ben", process.env.BEN_UID],
+    ["Collins", process.env.COLLINS_UID],
+    ["Dave", process.env.DAVE_UID], 
+    ["Joe", process.env.JOE_UID], 
+    ["Kyle", process.env.KYLE_UID], 
+    ["Mooney", process.env.MOONEY_UID], 
+    ["Ray", process.env.RAY_UID], 
+    ["Tim", process.env.TIM_UID],
+    ["Hiram", process.env.HIRAM_UID], 
+    ["Kaiser", process.env.KAISER_UID]
   ]);
 
-  santaMap.forEach((giver, giftee) => {
+  santaMap.forEach((giftee, giver) => {
     //console.log("Trying to message " + giver + ": " + giftee);
     //console.log("Giver UID: " + idMap.get(giver));    
     client.users.fetch(idMap.get(giver), false).then((user) => {
@@ -92,4 +90,4 @@ function messagePlayers(santaMap) {
   }) 
 }
 
-client.login(process.env.token);
+client.login(process.env.TOKEN);
