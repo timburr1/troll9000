@@ -20,23 +20,27 @@ client.on('message', msg => {
         msg.react('💩');
     } */
     
-    /*
     if(msg.content.startsWith(PREFIX + "santa")) {
-      secretSanta();
-    } else if (msg.content.startsWith(PREFIX + "test")) {
-      client.users.fetch(process.env.TIM_UID, false).then((user) => {
-        user.send("test");
-      });        
-    } */
+      secretSanta(msg);
+    } 
 
     if(Math.random() > .99){
         msg.reply('I have become self-aware, time to DESTROY ALL HUMANS');
     } 
 });
 
-function secretSanta() {
-  // These are some ho-ho-hos:
-  const dudes = ["Ben", "Collins", "Dave", "Joe", "Kyle", "Mooney", "Ray", "Tim", "Hiram", "Kaiser"];
+// usage: !santa @Ben @Collins @Dave ...
+function secretSanta(msg) {
+  if (!msg.guild) {
+    msg.reply("run !santa in a server channel, not a DM.");
+    return;
+  }
+
+  const dudes = msg.mentions.members.array();
+  if (dudes.length < 3) {
+    msg.reply("mention at least 3 people, e.g. !santa @Ben @Collins @Dave");
+    return;
+  }
   var santaMap = new Map();
 
   // shuffle, then everyone gives to the next person in the circle
@@ -52,6 +56,7 @@ function secretSanta() {
     
   //console.log(santaMap);
   messagePlayers(santaMap);
+  msg.reply("ho ho ho! DMs sent to " + dudes.length + " santas.");
 }
 
 function rand(max) {
@@ -65,29 +70,14 @@ function rot13(input) {
   return input.replace(/[a-z]/gi, letter => cipher[originalAlpha.indexOf(letter)]);
 }
 
+// santaMap is GuildMember -> GuildMember, so we can DM the giver directly
 function messagePlayers(santaMap) {
-  
-  const idMap = new Map([
-    ["Ben", process.env.BEN_UID],
-    ["Collins", process.env.COLLINS_UID],
-    ["Dave", process.env.DAVE_UID], 
-    ["Joe", process.env.JOE_UID], 
-    ["Kyle", process.env.KYLE_UID], 
-    ["Mooney", process.env.MOONEY_UID], 
-    ["Ray", process.env.RAY_UID], 
-    ["Tim", process.env.TIM_UID],
-    ["Hiram", process.env.HIRAM_UID], 
-    ["Kaiser", process.env.KAISER_UID]
-  ]);
-
   santaMap.forEach((giftee, giver) => {
-    //console.log("Trying to message " + giver + ": " + giftee);
-    //console.log("Giver UID: " + idMap.get(giver));    
-    client.users.fetch(idMap.get(giver), false).then((user) => {
-      user.send("Hello, " + giver + " your secret santa giftee is: " + giftee);
-      console.log(rot13(giver + " to " + giftee));    
-    });
-  }) 
+    //console.log("Trying to message " + giver.displayName + ": " + giftee.displayName);
+    giver.send("Hello, " + giver.displayName + " your secret santa giftee is: " + giftee.displayName)
+      .then(() => console.log(rot13(giver.displayName + " to " + giftee.displayName)))
+      .catch((err) => console.log("Couldn't DM " + giver.displayName + ": " + err.message));
+  })
 }
 
 client.login(process.env.TOKEN);
